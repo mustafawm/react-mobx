@@ -18,7 +18,7 @@ class TodoStore {
     @computed get filteredTodos() {
         let matchesFilter = new RegExp(this.filter, 'i');
         return this.todos.filter(todo => !this.filter || matchesFilter.test(todo.value))
-    }
+    };
 
     createTodo(val) {
         this.todos.push(new Todo(val));

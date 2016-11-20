@@ -3,10 +3,11 @@ import { observer } from 'mobx-react';
 
 @observer
 export default class TodoList extends React.Component {
+
     createNew(e) {
         if (e.which === 13) {
             this.props.store.createTodo(e.target.value);
-            e.target.value = '';
+            this.props.store.filter = e.target.value = '';
         }
     }
 
@@ -22,31 +23,36 @@ export default class TodoList extends React.Component {
         const { filter, todos, filteredTodos, cleareComplete } = this.props.store;
         const todoList = filteredTodos.map(todo => (
             <li key = {todo.id} >
-                <input type='checkbox'
-                    value={todo.complete} checked={todo.complete}
-                    onChange={this.toggleComplete.bind(this, todo)}
-                />
-                {todo.value}
+                <label>
+                    <input type='checkbox'
+                        value={todo.complete} checked={todo.complete}
+                        onChange={this.toggleComplete.bind(this, todo)}
+                    />
+                    &nbsp;&nbsp;
+                    { todo.value }
+                </label>
             </li>
         ));
 
         return <div>
-            <h2>Todos</h2>
-    
-            <input className='create'
-                onKeyPress={this.createNew.bind(this)}
-            />
+            <h1>Todos</h1>
 
-            <input className='filter'
+            <input className='input is-primary is-medium'
+                placeholder="search or add new todo"
                 value={filter}
                 onChange={this.filter.bind(this)}
+                onKeyPress={this.createNew.bind(this)}
             />
-            <ul>{todoList}</ul>
-            <a href="#"
+            <br/>
+
+            <ul> { todoList } </ul>
+
+            <br/>
+            <button className='button is-small is-inverted is-danger'
                 onClick={cleareComplete}
             >
                 Clear Completed
-            </a>
+            </button>
         </div>
     }
 }
