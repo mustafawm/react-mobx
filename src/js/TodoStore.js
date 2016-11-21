@@ -1,8 +1,8 @@
 import { computed, observable } from 'mobx';
 
 class Todo {
-    @observable value;
-    @observable id;
+    value;
+    id;
     @observable complete;
 
     constructor(val) {
@@ -15,7 +15,8 @@ class Todo {
 class TodoStore {
     @observable todos = [];
     @observable filter = "";
-    @computed get filteredTodos() {
+
+    @computed get filteredTodos() { // searching
         let matchesFilter = new RegExp(this.filter, 'i');
         return this.todos.filter(todo => !this.filter || matchesFilter.test(todo.value))
     };
